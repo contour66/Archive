@@ -1,0 +1,1 @@
+self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{\"/Users/zamirthind/Downloads/Archive/app/layout\":[\"static/media/e4af272ccee01ff0-s.p.woff2\",\"static/media/cddf20da50eef6ec-s.p.woff2\",\"static/media/dc1a31dd116e0329-s.p.woff2\"]},\"appUsingSizeAdjust\":true,\"pagesUsingSizeAdjust\":false}"

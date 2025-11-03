@@ -1,0 +1,40 @@
+/*!******************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[3]!./components/Carousel/carousel.css ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************/
+/* carousel css */
+.slick-prev, .slick-next {
+  --tw-text-opacity: 1 !important;
+  color: rgb(55 65 81 / var(--tw-text-opacity, 1)) !important;
+}
+
+.slick-disabled {
+  cursor: default;
+  --tw-text-opacity: 1 !important;
+  color: rgb(107 114 128 / var(--tw-text-opacity, 1)) !important;
+  opacity: 0.5 !important;
+}
+
+.slick-slider {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 64rem;
+}
+
+@media (min-width: 1280px) {
+  .slick-slider {
+    max-width: 1350px;
+  }
+}
+.slick-list {
+  padding-left: 1.5rem !important;
+}
+@media (min-width: 1280px) {
+  .slick-list {
+    padding-left: 0px !important;
+  }
+}
+
+.slick-prev::before,
+.slick-next::before {
+  display: none;
+}
