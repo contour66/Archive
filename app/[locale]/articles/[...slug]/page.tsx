@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { isNull } from 'lodash'
 import {  Page } from '@/types'
 import { CardCollection, NoArticles, NotFoundComponent, PageWrapper, Pagination } from '@/components'
@@ -65,10 +65,10 @@ export default function Article () {
     /**
      * @method fetchData
      * @description method that fetches data of the article listing page itself, primarily for setting data for the Chrome extension
-     * 
+     *
      * @async
-     * */ 
-    const fetchData = async () => {
+     * */
+    const fetchData = useCallback(async () => {
         try{
             const refUids = [
                 ...textAndImageReferenceIncludes,
@@ -85,15 +85,15 @@ export default function Article () {
         } catch(error) {
             console.error('Error while fetching ArticleListingPage:', error)
         }
-    }
+    }, [locale, path, personalizationSDK])
 
     /**
      * @method fetchArticles
      * @description method that fetches the articles based on the slug
-     * 
+     *
      * @async
      */
-    const fetchArticles = async () => {
+    const fetchArticles = useCallback(async () => {
         try{
             if (!taxonomyTerm) { //check if term exist in url
                 throw new Error('Invalid parameters. Valid pageUrl format is /articles/taxonomy_uid/term')
@@ -106,15 +106,15 @@ export default function Article () {
             console.error('Error while fetching Articles:', error)
             setArticles([])
         }
-    }
+    }, [taxonomyTerm, taxonomyUid, locale, personalizationSDK])
 
     /**
      * useEffect that fetched page and articles data
-     * */ 
+     * */
     useEffect(() => {
         onEntryChange(fetchData)
         fetchArticles()
-    }, [])
+    }, [fetchData, fetchArticles])
 
     /**
      * useEffect that sets the required attributes based on the slug for personalization
