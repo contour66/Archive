@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { isNull } from 'lodash'
 import { CardCollection, NoArticles, PageWrapper, Pagination } from '@/components'
 import { RenderComponents } from '@/components'
@@ -59,10 +59,10 @@ export default function ArticleListing () {
     /**
      * @method fetchData
      * @description method that fetches data of the article listing page itself, primarily for setting data for the Chrome extension
-     * 
+     *
      * @async
-     * */ 
-    const fetchData = async () => {
+     * */
+    const fetchData = useCallback(async () => {
         try{
             const refUids = [
                 ...textAndImageReferenceIncludes,
@@ -79,15 +79,15 @@ export default function ArticleListing () {
         } catch(error) {
             console.error('Error while fetching ArticleListingPage:', error)
         }
-    }
+    }, [locale, path, personalizationSDK])
 
     /**
      * @method fetchArticles
      * @description method that fetches all the articles
-     * 
+     *
      * @async
      */
-    const fetchArticles = async () => {
+    const fetchArticles = useCallback(async () => {
         try{
             // fetch all articles to list
             const articleCollection = await getEntries('article', locale, [], [], {}, personalizationSDK) as Page.Article['articles'][]
@@ -95,15 +95,15 @@ export default function ArticleListing () {
         } catch(error) {
             console.error('Error while fetching Articles:', error)
         }
-    }
+    }, [locale, personalizationSDK])
 
     /**
-     * useEffect that populates the data initially and during live preein
-     * */ 
+     * useEffect that populates the data initially and during live preview
+     * */
     useEffect(() => {
         fetchArticles()
         onEntryChange(fetchData)
-    }, [])
+    }, [fetchArticles, fetchData])
 
     /**
      * useEffect that maps over the fetched articles data and structure them as cards to display on the page

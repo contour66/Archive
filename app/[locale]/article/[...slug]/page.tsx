@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { isNull } from 'lodash'
 import { Text } from '@/components'
 import { Page } from '@/types'
@@ -50,10 +50,10 @@ export default function Article () {
     /**
      * @method fetchData
      * @description method to fetch the article data based on the slug
-     * 
+     *
      * @async
-     * */ 
-    const fetchData = async () => {
+     * */
+    const fetchData = useCallback(async () => {
         try {
             const jsonRtePaths = [...articleJSONRtePathIncludes]
             const entryData = await getEntryByUrl('article', locale, path, [], jsonRtePaths, personalizationSDK) as Page.ArticlePage['entry']
@@ -66,15 +66,15 @@ export default function Article () {
             console.error('🚀 ~ article.tsx ~ fetchData ~ err:', err)
             setLoading(false)
         }
-    }
+    }, [locale, path, personalizationSDK])
 
     /**
      * @method fetchArticles
      * @description method to fetch the related articles based on the current article's taxonomy data
-     * 
+     *
      * @async
-     * */ 
-    const fetchArticles = async () => {
+     * */
+    const fetchArticles = useCallback(async () => {
         try {
             if (data && data?.taxonomies?.length > 0) {
 
@@ -83,7 +83,7 @@ export default function Article () {
                     const filterQuery = data.taxonomies?.map((elem) => ( {
                         url: `/articles/${elem.taxonomy_uid}/${elem.term_uid.replaceAll('_', '-')}` as string
                     }) )
-                    
+
                     // filterQuery is matched against article_listing_page content-type to fetch related listing pages.
                     const listingData = await getEntries('article_listing_page', locale, [], [], {
                         queryOperator: 'or',
@@ -120,21 +120,21 @@ export default function Article () {
             console.error('🚀 ~ article.tsx ~ fetchArticles ~ err:', err)
             setArticles([])
         }
-    }
+    }, [data, show_related_links, show_related_articles, locale, personalizationSDK])
 
     /**
      * useEffect that handles data fetching on pageLoad and live preview
-     * */ 
+     * */
     useEffect(() => {
         onEntryChange(fetchData)
-    }, [path])
+    }, [fetchData])
 
     /**
      * useEffect that handles fetching of related articles
-     * */ 
+     * */
     useEffect(() => {
         fetchArticles()
-    }, [data])
+    }, [fetchArticles])
 
 
     const { content, title, summary, cover_image, show_related_links, related_links, show_related_articles, related_articles, $ } = data || {}
