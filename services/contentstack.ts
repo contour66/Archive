@@ -6,6 +6,7 @@ import { Sdk } from '@contentstack/personalize-edge-sdk/dist/sdk'
 import { Stack } from '@/config'
 import { deserializeVariantIds } from '@/utils'
 import { isEditButtonsEnabled } from '@/config'
+import { headers, cookies } from 'next/headers'
 
 /**
   *
@@ -55,9 +56,24 @@ export const getEntries = async <T>(contentTypeUid: string, locale: string , ref
             // fetching entries based on limit for related articles (not to overload payload)
             if (limit !== 0) entryQuery.limit(limit)
 
+            const queryParams: Record<string, string> = {
+                'include_metadata': 'true',
+                'include_applied_variants': 'true'
+            }
+
+            // Add live preview hash if available (from middleware cookie)
+            try {
+                const cookieStore = await cookies()
+                const livePreviewCookie = cookieStore.get('cs_live_preview')
+                if (livePreviewCookie?.value) {
+                    queryParams['live_preview'] = livePreviewCookie.value
+                }
+            } catch (e) {
+                // cookies() might not be available in all contexts, continue without it
+            }
+
             result = await entryQuery
-                .addParams({'include_metadata': 'true'})
-                .addParams({'include_applied_variants': 'true'})
+                .addParams(queryParams)
                 .find() as { entries: T[] }
 
             const data = result?.entries as EmbeddedItem[]
@@ -111,7 +127,7 @@ export const getEntryByUrl = async <T> (contentTypeUid: string, locale: string, 
             .includeEmbeddedItems()
             .includeReference(referenceFieldPath ?? [])
             .variants(deserializeVariantIds(personalizationSDK))
-            
+
         if (referenceFieldPath){
             for (const path of referenceFieldPath) {
                 entryQuery.includeReference(path)
@@ -119,10 +135,25 @@ export const getEntryByUrl = async <T> (contentTypeUid: string, locale: string, 
         }
 
         if (entryQuery) {
+            const queryParams: Record<string, string> = {
+                'include_metadata': 'true',
+                'include_applied_variants': 'true'
+            }
+
+            // Add live preview hash if available (from middleware cookie)
+            try {
+                const cookieStore = await cookies()
+                const livePreviewCookie = cookieStore.get('cs_live_preview')
+                if (livePreviewCookie?.value) {
+                    queryParams['live_preview'] = livePreviewCookie.value
+                }
+            } catch (e) {
+                // cookies() might not be available in all contexts, continue without it
+            }
+
             result = await entryQuery.query()
                 .equalTo('url', entryUrl)
-                .addParams({ 'include_metadata': 'true' })
-                .addParams({ 'include_applied_variants': 'true' })
+                .addParams(queryParams)
                 .find() as { entries: T[] }
             
             const data = result?.entries?.[0] as EmbeddedItem
