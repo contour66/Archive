@@ -6,7 +6,27 @@ import { Sdk } from '@contentstack/personalize-edge-sdk/dist/sdk'
 import { Stack } from '@/config'
 import { deserializeVariantIds } from '@/utils'
 import { isEditButtonsEnabled } from '@/config'
-import { headers, cookies } from 'next/headers'
+
+// Helper to get live preview hash from URL or cookie
+function getLivePreviewHash(): string | null {
+    if (typeof window === 'undefined') return null
+
+    // Check URL parameters first
+    const urlParams = new URLSearchParams(window.location.search)
+    const hashFromUrl = urlParams.get('live_preview')
+    if (hashFromUrl) return hashFromUrl
+
+    // Fall back to cookie
+    const cookies = document.cookie.split(';')
+    for (const cookie of cookies) {
+        const [name, value] = cookie.trim().split('=')
+        if (name === 'cs_live_preview') {
+            return decodeURIComponent(value)
+        }
+    }
+
+    return null
+}
 
 /**
   *
@@ -61,15 +81,10 @@ export const getEntries = async <T>(contentTypeUid: string, locale: string , ref
                 'include_applied_variants': 'true'
             }
 
-            // Add live preview hash if available (from middleware cookie)
-            try {
-                const cookieStore = await cookies()
-                const livePreviewCookie = cookieStore.get('cs_live_preview')
-                if (livePreviewCookie?.value) {
-                    queryParams['live_preview'] = livePreviewCookie.value
-                }
-            } catch (e) {
-                // cookies() might not be available in all contexts, continue without it
+            // Add live preview hash if available
+            const livePreviewHash = getLivePreviewHash()
+            if (livePreviewHash) {
+                queryParams['live_preview'] = livePreviewHash
             }
 
             result = await entryQuery
@@ -140,15 +155,10 @@ export const getEntryByUrl = async <T> (contentTypeUid: string, locale: string, 
                 'include_applied_variants': 'true'
             }
 
-            // Add live preview hash if available (from middleware cookie)
-            try {
-                const cookieStore = await cookies()
-                const livePreviewCookie = cookieStore.get('cs_live_preview')
-                if (livePreviewCookie?.value) {
-                    queryParams['live_preview'] = livePreviewCookie.value
-                }
-            } catch (e) {
-                // cookies() might not be available in all contexts, continue without it
+            // Add live preview hash if available
+            const livePreviewHash = getLivePreviewHash()
+            if (livePreviewHash) {
+                queryParams['live_preview'] = livePreviewHash
             }
 
             result = await entryQuery.query()
