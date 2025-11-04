@@ -7,6 +7,27 @@ import { Stack } from '@/config'
 import { deserializeVariantIds } from '@/utils'
 import { isEditButtonsEnabled } from '@/config'
 
+// Helper to get live preview hash from URL or cookie
+function getLivePreviewHash(): string | null {
+    if (typeof window === 'undefined') return null
+
+    // Check URL parameters first
+    const urlParams = new URLSearchParams(window.location.search)
+    const hashFromUrl = urlParams.get('live_preview')
+    if (hashFromUrl) return hashFromUrl
+
+    // Fall back to cookie
+    const cookies = document.cookie.split(';')
+    for (const cookie of cookies) {
+        const [name, value] = cookie.trim().split('=')
+        if (name === 'cs_live_preview') {
+            return decodeURIComponent(value)
+        }
+    }
+
+    return null
+}
+
 /**
   *
   * fetches all the entries from specific content-type
@@ -55,9 +76,19 @@ export const getEntries = async <T>(contentTypeUid: string, locale: string , ref
             // fetching entries based on limit for related articles (not to overload payload)
             if (limit !== 0) entryQuery.limit(limit)
 
+            const queryParams: Record<string, string> = {
+                'include_metadata': 'true',
+                'include_applied_variants': 'true'
+            }
+
+            // Add live preview hash if available
+            const livePreviewHash = getLivePreviewHash()
+            if (livePreviewHash) {
+                queryParams['live_preview'] = livePreviewHash
+            }
+
             result = await entryQuery
-                .addParams({'include_metadata': 'true'})
-                .addParams({'include_applied_variants': 'true'})
+                .addParams(queryParams)
                 .find() as { entries: T[] }
 
             const data = result?.entries as EmbeddedItem[]
@@ -111,7 +142,7 @@ export const getEntryByUrl = async <T> (contentTypeUid: string, locale: string, 
             .includeEmbeddedItems()
             .includeReference(referenceFieldPath ?? [])
             .variants(deserializeVariantIds(personalizationSDK))
-            
+
         if (referenceFieldPath){
             for (const path of referenceFieldPath) {
                 entryQuery.includeReference(path)
@@ -119,10 +150,20 @@ export const getEntryByUrl = async <T> (contentTypeUid: string, locale: string, 
         }
 
         if (entryQuery) {
+            const queryParams: Record<string, string> = {
+                'include_metadata': 'true',
+                'include_applied_variants': 'true'
+            }
+
+            // Add live preview hash if available
+            const livePreviewHash = getLivePreviewHash()
+            if (livePreviewHash) {
+                queryParams['live_preview'] = livePreviewHash
+            }
+
             result = await entryQuery.query()
                 .equalTo('url', entryUrl)
-                .addParams({ 'include_metadata': 'true' })
-                .addParams({ 'include_applied_variants': 'true' })
+                .addParams(queryParams)
                 .find() as { entries: T[] }
             
             const data = result?.entries?.[0] as EmbeddedItem

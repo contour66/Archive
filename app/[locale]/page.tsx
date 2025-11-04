@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { RenderComponents } from '@/components'
 import { Page } from '@/types'
 import { NotFoundComponent, PageWrapper } from '@/components'
@@ -32,7 +32,7 @@ export default function Home () {
     * @async
     * @returns {Promise<void>}
     */
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         try {
             const refUids = [
                 ...heroReferenceIncludes,
@@ -54,14 +54,14 @@ export default function Home () {
             console.error('🚀 ~ fetchData ~ err:', err)
             setLoading(false)
         }
-    }
+    }, [locale, path, personalizationSDK])
 
     /**
      * useEffect to fetch data to be rendered on the page
-     * */ 
+     * */
     useEffect(() => {
         onEntryChange(fetchData)
-    }, [])
+    }, [fetchData])
 
     return (
         <>

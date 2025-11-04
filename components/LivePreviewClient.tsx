@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { Stack } from '@/config/contentstack/deliverySDk';
 
 export default function LivePreviewClient() {
   const router = useRouter();
@@ -21,12 +22,16 @@ export default function LivePreviewClient() {
 
         LP.init({
           enable: true,
-          ssr: true,
+          ssr: false,  // Changed to false since we're in client component
           stackDetails: { apiKey, environment: env },
+          stackSdk: Stack,  // CRITICAL: Pass the actual Stack SDK instance
           clientUrlParams: { protocol: 'http', host: 'localhost:3000' },
         });
 
-        LP.onEntryChange?.(() => router.refresh());
+        LP.onEntryChange?.(() => {
+          console.log('[Live Preview] Entry changed, refreshing...');
+          router.refresh();
+        });
       } catch (e) {
         console.error('[CS LP init error]', e);
       }
