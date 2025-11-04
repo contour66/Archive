@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import {isNull}  from 'lodash'
 import Personalize from '@contentstack/personalize-edge-sdk'
 import { RenderComponents } from '@/components'
@@ -30,12 +30,12 @@ export default function LandingPage () {
     const { personalizationSDK } = usePersonalization()
 
     /**
-     * useEffect to conditionally trigger and impression for a configured AB testing 
-     * */ 
+     * useEffect to conditionally trigger and impression for a configured AB testing
+     * */
     useEffect(() => {
         const variants = personalizationSDK?.getVariants() ?? {}
-        if (path === process.env.CONTENTSTACK_AB_LANDING_PAGE_PATH 
-            && Personalize.getInitializationStatus() 
+        if (path === process.env.CONTENTSTACK_AB_LANDING_PAGE_PATH
+            && Personalize.getInitializationStatus()
             && Personalize.getInitializationStatus() === 'success'
             && variants[process.env.CONTENTSTACK_AB_EXPERIENCE_ID??'1']) {
             setIsABTestEnabled(true)
@@ -44,34 +44,42 @@ export default function LandingPage () {
     }, [Personalize.getInitializationStatus()])
 
     /**
-     * useEffect that fetches data to be rendered on the page
-     * */ 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const refUids = [
-                    ...heroReferenceIncludes,
-                    ...textAndImageReferenceIncludes,
-                    ...teaserReferenceIncludes,
-                    ...imageCardsReferenceIncludes
-                ]
-                const jsonRtePaths = [
-                    ...textJSONRtePaths
-                ]
-                const res = await getEntryByUrl<Page.LandingPage['entry']>('landing_page',locale, path, refUids, jsonRtePaths, personalizationSDK) as Page.LandingPage['entry']
-                setData(res)
-                setDataForChromeExtension({ entryUid: res?.uid || '', contenttype: 'landing_page', locale: locale })
-                if (!res && !isNull(res)) {
-                    throw '404'
-                }
-            }
-            catch (err) {
-                console.error('Error while fetching Landing page : ', err)
-                setLoading(false)
+     * @method fetchData
+     * @description Method that fetches the landing page data and populates state with it
+     *
+     * @async
+     * @returns {Promise<void>}
+     */
+    const fetchData = useCallback(async () => {
+        try {
+            const refUids = [
+                ...heroReferenceIncludes,
+                ...textAndImageReferenceIncludes,
+                ...teaserReferenceIncludes,
+                ...imageCardsReferenceIncludes
+            ]
+            const jsonRtePaths = [
+                ...textJSONRtePaths
+            ]
+            const res = await getEntryByUrl<Page.LandingPage['entry']>('landing_page',locale, path, refUids, jsonRtePaths, personalizationSDK) as Page.LandingPage['entry']
+            setData(res)
+            setDataForChromeExtension({ entryUid: res?.uid || '', contenttype: 'landing_page', locale: locale })
+            if (!res && !isNull(res)) {
+                throw '404'
             }
         }
+        catch (err) {
+            console.error('Error while fetching Landing page : ', err)
+            setLoading(false)
+        }
+    }, [locale, path, personalizationSDK])
+
+    /**
+     * useEffect that fetches data to be rendered on the page
+     * */
+    useEffect(() => {
         onEntryChange(fetchData)
-    }, [path])
+    }, [fetchData])
 
 
     return (<>
