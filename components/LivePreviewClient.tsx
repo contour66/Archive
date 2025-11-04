@@ -24,7 +24,7 @@ export default function LivePreviewClient() {
           enable: true,
           ssr: false,  // Changed to false since we're in client component
           stackDetails: { apiKey, environment: env },
-          stackSdk: Stack.config,  // CRITICAL: Pass the actual Stack SDK instance
+          stackSdk: Stack,  // CRITICAL: Pass the actual Stack SDK instance
           clientUrlParams: { protocol: 'http', host: 'localhost:3000' },
         });
 
