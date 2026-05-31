@@ -43,7 +43,14 @@ async function createEpic(summary, description) {
     })
   });
 
-  return await response.json();
+  const result = await response.json();
+
+  if (!response.ok) {
+    console.error('❌ Failed to create Epic:', JSON.stringify(result, null, 2));
+    throw new Error(`Epic creation failed: ${result.errorMessages || result.errors || 'Unknown error'}`);
+  }
+
+  return result;
 }
 
 async function createStory(summary, description, storyPoints, epicKey) {
@@ -69,7 +76,15 @@ async function createStory(summary, description, storyPoints, epicKey) {
     })
   });
 
-  return await response.json();
+  const result = await response.json();
+
+  if (!response.ok) {
+    console.error(`❌ Failed to create story "${summary}":`, JSON.stringify(result, null, 2));
+    // Don't throw, just log and continue with other tickets
+    return { key: undefined, error: true };
+  }
+
+  return result;
 }
 
 async function main() {
