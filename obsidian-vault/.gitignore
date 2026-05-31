@@ -1,0 +1,10 @@
+# Ignore actual research data files
+Research/Instagram/Viral_Posts/**/*.md
+!Research/Instagram/Viral_Posts/_template.md
+
+# Ignore daily reports
+Research/Instagram/Daily_Reports/*.md
+
+# But keep the structure
+!.gitkeep
+!README.md

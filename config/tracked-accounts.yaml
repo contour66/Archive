@@ -1,0 +1,173 @@
+# DSCE - Tracked Instagram Accounts
+# Auto-updated by Clarity app when manually adding accounts
+
+accounts:
+  # Fragrance & Grooming
+  - handle: lelabofragrances
+    category: fragrance
+    priority: high
+    added_date: 2026-05-31
+
+  - handle: tomford
+    category: fragrance
+    priority: high
+    added_date: 2026-05-31
+
+  - handle: byredo
+    category: fragrance
+    priority: high
+    added_date: 2026-05-31
+
+  - handle: aesopskincare
+    category: fragrance
+    priority: high
+    added_date: 2026-05-31
+
+  - handle: dsanddurga
+    category: fragrance
+    priority: medium
+    added_date: 2026-05-31
+
+  - handle: malinandgoetz
+    category: grooming
+    priority: medium
+    added_date: 2026-05-31
+
+  # Surf Culture
+  - handle: surfline
+    category: surf
+    priority: medium
+    added_date: 2026-05-31
+
+  - handle: patagonia
+    category: surf
+    priority: medium
+    added_date: 2026-05-31
+
+  - handle: surfer_magazine
+    category: surf
+    priority: low
+    added_date: 2026-05-31
+
+  # Muay Thai / Fitness
+  - handle: muaythai
+    category: muay_thai
+    priority: medium
+    added_date: 2026-05-31
+
+  - handle: onechampionship
+    category: muay_thai
+    priority: low
+    added_date: 2026-05-31
+
+  # Motorcycles
+  - handle: bikeexif
+    category: motorcycles
+    priority: high
+    added_date: 2026-05-31
+
+  - handle: throttleroll
+    category: motorcycles
+    priority: medium
+    added_date: 2026-05-31
+
+  - handle: caferacergram
+    category: motorcycles
+    priority: low
+    added_date: 2026-05-31
+
+  # Music
+  - handle: bluenoterecords
+    category: music
+    priority: medium
+    added_date: 2026-05-31
+
+  - handle: vinylcollective
+    category: music
+    priority: low
+    added_date: 2026-05-31
+
+  # Art & Design
+  - handle: archdigest
+    category: art
+    priority: medium
+    added_date: 2026-05-31
+
+  - handle: kinfolk
+    category: art
+    priority: high
+    added_date: 2026-05-31
+
+  - handle: monocle
+    category: art
+    priority: medium
+    added_date: 2026-05-31
+
+  # Travel
+  - handle: cntraveler
+    category: travel
+    priority: low
+    added_date: 2026-05-31
+
+  - handle: acehotel
+    category: travel
+    priority: medium
+    added_date: 2026-05-31
+
+  # Food & Coffee
+  - handle: bluebottlecoffee
+    category: food
+    priority: medium
+    added_date: 2026-05-31
+
+  - handle: intelligentsiacoffee
+    category: food
+    priority: medium
+    added_date: 2026-05-31
+
+  - handle: bonappetitmag
+    category: food
+    priority: low
+    added_date: 2026-05-31
+
+# Hashtags to Track
+hashtags:
+  - tag: mensgrooming
+    category: grooming
+    priority: high
+
+  - tag: nichefragrance
+    category: fragrance
+    priority: high
+
+  - tag: artisanfragrance
+    category: fragrance
+    priority: high
+
+  - tag: beardcare
+    category: grooming
+    priority: high
+
+  - tag: wetshaving
+    category: grooming
+    priority: medium
+
+  - tag: californiasurfing
+    category: surf
+    priority: medium
+
+  - tag: vintagemotorcycle
+    category: motorcycles
+    priority: medium
+
+  - tag: caferacer
+    category: motorcycles
+    priority: medium
+
+  - tag: muaythai
+    category: muay_thai
+    priority: medium
+
+  - tag: specialtycoffee
+    category: food
+    priority: low
