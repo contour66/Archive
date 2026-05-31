@@ -1,11 +1,11 @@
 name: Setup Jira Tickets
 
 on:
-  workflow_dispatch:  # Manual trigger
   push:
     branches:
-      - feature/DSCE-foundation
+      - main
     paths:
+      - 'docs/DSCE_Jira_Tickets.md'
       - '.github/workflows/setup-jira.yml'
 
 jobs:
@@ -25,7 +25,29 @@ jobs:
         run: |
           npm install apify-client dotenv
 
+      - name: Check if tickets already exist
+        id: check
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+        run: |
+          # Check if Epic already exists
+          response=$(curl -s -u "$JIRA_EMAIL:$JIRA_API_TOKEN" \
+            "$JIRA_BASE_URL/rest/api/3/search?jql=project=DSCE+AND+type=Epic+AND+summary~'Research Agent'")
+
+          total=$(echo $response | jq -r '.total')
+
+          if [ "$total" -gt 0 ]; then
+            echo "tickets_exist=true" >> $GITHUB_OUTPUT
+            echo "✅ Tickets already exist, skipping creation"
+          else
+            echo "tickets_exist=false" >> $GITHUB_OUTPUT
+            echo "📝 No tickets found, will create them"
+          fi
+
       - name: Create Jira tickets
+        if: steps.check.outputs.tickets_exist == 'false'
         env:
           JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
           JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
