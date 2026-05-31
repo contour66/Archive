@@ -13,7 +13,7 @@ Add these secrets to: https://github.com/contour66/clarity-app/settings/secrets/
 **Value:** `business@dappersingh.co`
 
 **Name:** `JIRA_API_TOKEN`  
-**Value:** `ATCTT3xFfGN0ckdnttNOFUp4SVGe5DPQ495jL-gkFoIWMSJOUSBIsNkqa74xcFVCJUg3Ic5XRRbkqH65ePL_gxPNonR_aimgEMi6cqa5RHbzywt2GAZxbyETHCI2btWnwijfZrDeVE-YW9xDtqjsAij96yyI8ee243fZNawZrRZHN7b5mU4rKyA=9284DBAB`
+**Value:** `<your-jira-api-token>`
 
 **Name:** `JIRA_PROJECT_KEY`  
 **Value:** `DSCE`
@@ -21,7 +21,7 @@ Add these secrets to: https://github.com/contour66/clarity-app/settings/secrets/
 ### Apify Integration (for future use)
 
 **Name:** `APIFY_API_TOKEN`  
-**Value:** `apify_api_laNqZz0ttpHT0AzYsNBY1mETiZ5p0V37aX7v`
+**Value:** `<your-apify-api-token>`
 
 **Name:** `APIFY_USER_ID`  
 **Value:** `5B9AGAs6xmPxtJQPo`
@@ -34,9 +34,9 @@ Add these secrets to: https://github.com/contour66/clarity-app/settings/secrets/
 # Using GitHub CLI (recommended)
 gh secret set JIRA_BASE_URL --body "https://dappersingh.atlassian.net"
 gh secret set JIRA_EMAIL --body "business@dappersingh.co"
-gh secret set JIRA_API_TOKEN --body "ATCTT3xFfGN0ckdnttNOFUp4SVGe5DPQ495jL-gkFoIWMSJOUSBIsNkqa74xcFVCJUg3Ic5XRRbkqH65ePL_gxPNonR_aimgEMi6cqa5RHbzywt2GAZxbyETHCI2btWnwijfZrDeVE-YW9xDtqjsAij96yyI8ee243fZNawZrRZHN7b5mU4rKyA=9284DBAB"
+gh secret set JIRA_API_TOKEN --body "<your-jira-api-token>"
 gh secret set JIRA_PROJECT_KEY --body "DSCE"
-gh secret set APIFY_API_TOKEN --body "apify_api_laNqZz0ttpHT0AzYsNBY1mETiZ5p0V37aX7v"
+gh secret set APIFY_API_TOKEN --body "<your-apify-api-token>"
 gh secret set APIFY_USER_ID --body "5B9AGAs6xmPxtJQPo"
 ```
 

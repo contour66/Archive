@@ -16,10 +16,10 @@ git pull origin feature/DSCE-foundation
 echo "📝 Adding GitHub secrets..."
 gh secret set JIRA_BASE_URL --body "https://dappersingh.atlassian.net"
 gh secret set JIRA_EMAIL --body "business@dappersingh.co"
-gh secret set JIRA_API_TOKEN --body "ATCTT3xFfGN0ckdnttNOFUp4SVGe5DPQ495jL-gkFoIWMSJOUSBIsNkqa74xcFVCJUg3Ic5XRRbkqH65ePL_gxPNonR_aimgEMi6cqa5RHbzywt2GAZxbyETHCI2btWnwijfZrDeVE-YW9xDtqjsAij96yyI8ee243fZNawZrRZHN7b5mU4rKyA=9284DBAB"
+gh secret set JIRA_API_TOKEN --body "<your-jira-api-token>"
 gh secret set JIRA_PROJECT_KEY --body "DSCE"
-gh secret set APIFY_API_TOKEN --body "apify_api_laNqZz0ttpHT0AzYsNBY1mETiZ5p0V37aX7v"
-gh secret set APIFY_USER_ID --body "5B9AGAs6xmPxtJQPo"
+gh secret set APIFY_API_TOKEN --body "<your-apify-api-token>"
+gh secret set APIFY_USER_ID --body "<your-apify-user-id>"
 
 # Create Jira tickets
 echo "🎫 Creating Jira tickets..."

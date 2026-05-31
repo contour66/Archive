@@ -132,8 +132,8 @@ Make sure you have `.env.local` in clarity-app:
 
 ```bash
 # Apify
-APIFY_API_TOKEN=apify_api_laNqZz0ttpHT0AzYsNBY1mETiZ5p0V37aX7v
-APIFY_USER_ID=5B9AGAs6xmPxtJQPo
+APIFY_API_TOKEN=<your-apify-api-token>
+APIFY_USER_ID=<your-apify-user-id>
 
 # Obsidian
 OBSIDIAN_VAULT_PATH=./obsidian-vault
