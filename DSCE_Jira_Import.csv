@@ -1,0 +1,18 @@
+Issue Type,Summary,Description,Story Points,Priority,Epic Link
+Epic,Research Agent - Instagram,"Automated Instagram research system that discovers high-performing content in Dapper Singh niches using Apify, stores in Obsidian, and displays in Clarity app",,High,
+Story,Set Up Apify Account & Authentication,Configure Apify API token and test connection. Create .env.local with credentials.,2,Highest,Research Agent - Instagram
+Story,Research Apify Instagram Actors,Evaluate Instagram Hashtag Scraper Profile Scraper and Post Scraper. Document costs and rate limits. Choose optimal actors for MVP.,3,Highest,Research Agent - Instagram
+Story,Create Obsidian Vault Structure,Set up folder hierarchy for Research/Instagram with category subfolders. Create markdown templates and README files.,2,High,Research Agent - Instagram
+Story,Build Apify Integration Module,Create TypeScript module with scrapeHashtag() scrapeProfile() and scrapePost() functions. Implement error handling and rate limiting.,5,High,Research Agent - Instagram
+Story,Implement Performance Filtering & Scoring,Create scoring formula: Views (primary) > Engagement Rate (secondary) > Saves (tertiary). Apply minimum thresholds. Calculate Dapper Singh relevance score.,5,High,Research Agent - Instagram
+Story,Create Obsidian Writer Module,Build module to write scraped posts to Obsidian vault as markdown files. Generate YAML frontmatter organize by category detect duplicates.,3,High,Research Agent - Instagram
+Story,Build Research Orchestrator,Coordinate entire workflow: read tracked accounts/hashtags call Apify filter/score posts write to Obsidian generate reports.,5,High,Research Agent - Instagram
+Story,Create Clarity Research Tab UI,Add new /research route to Clarity app. Build dashboard viral posts feed filtering/sorting post detail modal.,8,High,Research Agent - Instagram
+Story,Build Research API Endpoints,Create Next.js API routes: GET /api/research/posts POST /api/research/scan POST /api/research/accounts GET /api/research/stats,5,High,Research Agent - Instagram
+Story,Implement Manual Scan Trigger,Add Scan Now button to Clarity Research tab. Show loading state progress indicator and success notification.,3,Medium,Research Agent - Instagram
+Story,Set Up Scheduled Daily Scraping,Configure Vercel Cron job to run research automatically at 8 AM PST daily. Add CRON_SECRET validation and error alerts.,3,Medium,Research Agent - Instagram
+Story,Create Tracked Accounts Configuration,Build initial config/tracked-accounts.yaml with 20+ Instagram accounts and 10+ hashtags across Dapper Singh niches.,2,Medium,Research Agent - Instagram
+Story,Add Manual Account Input Feature,Allow user to add Instagram accounts via Clarity UI. Modal with form validation writes to tracked-accounts.yaml.,3,Low,Research Agent - Instagram
+Story,Build Daily Research Report Generator,Generate markdown reports summarizing daily findings: top posts category breakdown insights/patterns.,3,Low,Research Agent - Instagram
+Story,Implement Content Recreation Queue,Add queue viral posts for recreation. Create Campaign from This button pre-fills campaign form integrates with Campaign Agent.,5,Medium,Research Agent - Instagram
+Task,End-to-End Testing - Research Workflow,Test complete workflow: scheduled scan manual scan filtering/sorting Clarity display. Verify 100+ posts scraped 10+ high-priority identified.,3,High,Research Agent - Instagram
